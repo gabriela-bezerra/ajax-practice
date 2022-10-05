@@ -27,6 +27,7 @@ WEATHER = {
 
 DEFAULT_WEATHER = {'forecast': 'Kind of boring.', 'temp': '68F'}
 
+
 @app.route('/')
 def index():
     """Show our index page."""
