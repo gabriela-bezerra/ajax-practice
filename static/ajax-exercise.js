@@ -6,7 +6,7 @@ function showFortune(evt) {
   fetch('/fortune')
     .then((response) => response.text())
     .then((fortuneData) => {
-      document.querySelector('#fortune-text').innerText = fortuneData;
+      document.querySelector('#fortune-text').innerHTML = fortuneData;
     });
 }
 
@@ -33,6 +33,15 @@ document.querySelector('#weather-form').addEventListener('submit', showWeather);
 
 // PART 3: ORDER MELONS
 
+function checkOrderError(orderCode, orderStatusDiv) {
+  if (orderCode === 'ERROR') {
+    orderStatusDiv.classList.add("order-error");
+  } else {
+    orderStatusDiv.classList.remove("order-error");
+  }
+};
+
+
 function orderMelons(evt) {
   evt.preventDefault();
 
@@ -53,24 +62,30 @@ function orderMelons(evt) {
       let orderCode = orderStatus['code'];
       let orderStatusDiv = document.querySelector('#order-status');
       orderStatusDiv.innerText = orderStatus['msg'];
-      if (orderCode === 'ERROR') {
-        orderStatusDiv.classList.add("order-error")
-      }
-    });
-}
+      checkOrderError(orderCode, orderStatusDiv);
+      // if (orderCode === 'ERROR') {
+      //   orderStatusDiv.classList.add("order-error")
+      // } else {
+      //   orderStatusDiv.classList.remove("order-error")
+      // }
+    }
+    )
+};
+
+
 document.querySelector('#order-form').addEventListener('submit', orderMelons);
 
+
 const button = document.querySelector('#get-dog-image');
+const DOG_URL = 'https://dog.ceo/api/breeds/image/random';
 
 button.addEventListener('click', () => {
-  const url = 'https://dog.ceo/api/breeds/image/random';
 
-  fetch(url)
+  fetch(DOG_URL)
     .then((response) => response.json())
     .then((dogImageData) => {
       const dogImage = dogImageData['message'];
-      // document.querySelector('#dog-image')
-      //   .insertAdjacentHTML('beforeend', `<div><img src=${dogImage}></div>`)
+
       document.querySelector('#dog-photo').innerHTML = `<img src=${dogImage}>`;
     });
 });
